@@ -1,6 +1,5 @@
-import { createRootRoute, Outlet, useRouterState } from '@tanstack/react-router'
-import { AnimatePresence, MotionConfig, motion } from 'motion/react'
-import { pageVariants } from '../components/motion'
+import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { MotionConfig } from 'motion/react'
 import { AuthProvider } from '../lib/auth'
 import '../styles.css'
 
@@ -9,22 +8,10 @@ export const Route = createRootRoute({
 })
 
 function Root() {
-  const pathname = useRouterState({ select: (state) => state.location.pathname })
-
   return (
     <AuthProvider>
       <MotionConfig reducedMotion="user">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={pathname}
-            variants={pageVariants}
-            initial="initial"
-            animate="enter"
-            exit="exit"
-          >
-            <Outlet />
-          </motion.div>
-        </AnimatePresence>
+        <Outlet />
       </MotionConfig>
     </AuthProvider>
   )

@@ -53,36 +53,19 @@ export function AppShell({
   }
 
   return (
-    <motion.div className="app-layout" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <motion.aside
-        className="sidebar"
-        initial={{ x: -28, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.55, ease: easeOut }}
-      >
-        <motion.div
-          className="sidebar-brand"
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.18, ease: easeOut }}
-          whileHover={{ x: 2 }}
-        >
+    <div className="app-layout">
+      <aside className="sidebar">
+        <motion.div className="sidebar-brand" whileHover={{ x: 2 }}>
           <Link to="/app">
             <BrandMark />
           </Link>
         </motion.div>
         <nav className="sidebar-nav" aria-label="Workspace">
-          {navItems.map((item, index) => {
+          {navItems.map((item) => {
             const active =
               'exact' in item && item.exact ? pathname === item.to : pathname.startsWith(item.to)
             return (
-              <motion.div
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.23 + index * 0.06, ease: easeOut }}
-                whileHover={{ x: 3 }}
-                key={item.to}
-              >
+              <motion.div whileHover={{ x: 3 }} key={item.to}>
                 <Link to={item.to} className={`sidebar-link ${active ? 'active' : ''}`}>
                   {active && (
                     <motion.span
@@ -98,25 +81,14 @@ export function AppShell({
             )
           })}
         </nav>
-        <motion.div
-          className="sidebar-tip"
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.42, duration: 0.5, ease: easeOut }}
-          whileHover={{ y: -3 }}
-        >
+        <motion.div className="sidebar-tip" whileHover={{ y: -3 }}>
           <span className="tip-icon">
             <Icon name="sparkle" size={16} />
           </span>
           <strong>Make it feel like you.</strong>
           <p>Brand every touchpoint, not just the thank-you page.</p>
         </motion.div>
-        <motion.div
-          className="sidebar-user"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.45 }}
-        >
+        <div className="sidebar-user">
           <span className="avatar">{user?.email.slice(0, 1).toUpperCase()}</span>
           <span>
             <strong>{user?.email.split('@')[0]}</strong>
@@ -132,24 +104,19 @@ export function AppShell({
           >
             <Icon name="logout" size={17} />
           </motion.button>
-        </motion.div>
-      </motion.aside>
-      <motion.main
-        className="app-main"
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.08, duration: 0.52, ease: easeOut }}
-      >
+        </div>
+      </aside>
+      <main className="app-main">
         <motion.header
           className="page-header"
-          initial={{ opacity: 0, y: -14 }}
+          initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.16, duration: 0.55, ease: easeOut }}
+          transition={{ duration: 0.35, ease: easeOut }}
         >
           <motion.div
             initial={{ opacity: 0, x: -12 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.22, ease: easeOut }}
+            transition={{ duration: 0.35, ease: easeOut }}
           >
             {eyebrow && <p className="eyebrow">{eyebrow}</p>}
             <h1>{title}</h1>
@@ -159,14 +126,14 @@ export function AppShell({
               className="page-actions"
               initial={{ opacity: 0, x: 12 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.26, ease: easeOut }}
+              transition={{ duration: 0.35, ease: easeOut }}
             >
               {actions}
             </motion.div>
           )}
         </motion.header>
         {children}
-      </motion.main>
-    </motion.div>
+      </main>
+    </div>
   )
 }
