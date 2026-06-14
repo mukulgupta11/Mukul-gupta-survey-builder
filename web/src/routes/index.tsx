@@ -451,7 +451,7 @@ function Home() {
       >
         <BrandMark />
         <p>Branded surveys, beautifully simple.</p>
-        <span>Built for the DoCoDeGo SDE assessment.</span>
+        <span>Built with React, Hono, and Cloudflare.</span>
       </motion.footer>
     </motion.main>
   )

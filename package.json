@@ -1,13 +1,13 @@
 {
-  "name": "sde-intern-task",
+  "name": "luma-survey-platform",
   "private": true,
   "packageManager": "pnpm@9.0.0",
   "engines": {
     "node": ">=22"
   },
   "scripts": {
-    "dev": "concurrently -n api,web -c blue,magenta \"corepack pnpm --filter sde-intern-task-api dev\" \"corepack pnpm --filter sde-intern-task-web dev\"",
-    "build": "corepack pnpm --filter sde-intern-task-web build",
+    "dev": "concurrently -n api,web -c blue,magenta \"corepack pnpm --filter luma-api dev\" \"corepack pnpm --filter luma-web dev\"",
+    "build": "corepack pnpm --filter luma-web build",
     "typecheck": "corepack pnpm -r typecheck",
     "check": "biome check .",
     "check:fix": "biome check --write .",
