@@ -9,38 +9,164 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app/index'
+import { Route as SSlugRouteImport } from './routes/s/$slug'
+import { Route as AppResponsesRouteImport } from './routes/app/responses'
+import { Route as AppSurveysIndexRouteImport } from './routes/app/surveys/index'
+import { Route as AppSurveysSurveyIdRouteImport } from './routes/app/surveys/$surveyId'
+import { Route as AppSurveysSurveyIdIndexRouteImport } from './routes/app/surveys/$surveyId/index'
+import { Route as AppSurveysSurveyIdResponsesRouteImport } from './routes/app/surveys/$surveyId/responses'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const SSlugRoute = SSlugRouteImport.update({
+  id: '/s/$slug',
+  path: '/s/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppResponsesRoute = AppResponsesRouteImport.update({
+  id: '/responses',
+  path: '/responses',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSurveysIndexRoute = AppSurveysIndexRouteImport.update({
+  id: '/surveys/',
+  path: '/surveys/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSurveysSurveyIdRoute = AppSurveysSurveyIdRouteImport.update({
+  id: '/surveys/$surveyId',
+  path: '/surveys/$surveyId',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSurveysSurveyIdIndexRoute = AppSurveysSurveyIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppSurveysSurveyIdRoute,
+} as any)
+const AppSurveysSurveyIdResponsesRoute =
+  AppSurveysSurveyIdResponsesRouteImport.update({
+    id: '/responses',
+    path: '/responses',
+    getParentRoute: () => AppSurveysSurveyIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/app/responses': typeof AppResponsesRoute
+  '/s/$slug': typeof SSlugRoute
+  '/app/': typeof AppIndexRoute
+  '/app/surveys/$surveyId': typeof AppSurveysSurveyIdRouteWithChildren
+  '/app/surveys/': typeof AppSurveysIndexRoute
+  '/app/surveys/$surveyId/responses': typeof AppSurveysSurveyIdResponsesRoute
+  '/app/surveys/$surveyId/': typeof AppSurveysSurveyIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/app/responses': typeof AppResponsesRoute
+  '/s/$slug': typeof SSlugRoute
+  '/app': typeof AppIndexRoute
+  '/app/surveys': typeof AppSurveysIndexRoute
+  '/app/surveys/$surveyId/responses': typeof AppSurveysSurveyIdResponsesRoute
+  '/app/surveys/$surveyId': typeof AppSurveysSurveyIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/app/responses': typeof AppResponsesRoute
+  '/s/$slug': typeof SSlugRoute
+  '/app/': typeof AppIndexRoute
+  '/app/surveys/$surveyId': typeof AppSurveysSurveyIdRouteWithChildren
+  '/app/surveys/': typeof AppSurveysIndexRoute
+  '/app/surveys/$surveyId/responses': typeof AppSurveysSurveyIdResponsesRoute
+  '/app/surveys/$surveyId/': typeof AppSurveysSurveyIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/login'
+    | '/app/responses'
+    | '/s/$slug'
+    | '/app/'
+    | '/app/surveys/$surveyId'
+    | '/app/surveys/'
+    | '/app/surveys/$surveyId/responses'
+    | '/app/surveys/$surveyId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/app/responses'
+    | '/s/$slug'
+    | '/app'
+    | '/app/surveys'
+    | '/app/surveys/$surveyId/responses'
+    | '/app/surveys/$surveyId'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/login'
+    | '/app/responses'
+    | '/s/$slug'
+    | '/app/'
+    | '/app/surveys/$surveyId'
+    | '/app/surveys/'
+    | '/app/surveys/$surveyId/responses'
+    | '/app/surveys/$surveyId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  SSlugRoute: typeof SSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +174,92 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/s/$slug': {
+      id: '/s/$slug'
+      path: '/s/$slug'
+      fullPath: '/s/$slug'
+      preLoaderRoute: typeof SSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/responses': {
+      id: '/app/responses'
+      path: '/responses'
+      fullPath: '/app/responses'
+      preLoaderRoute: typeof AppResponsesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/surveys/': {
+      id: '/app/surveys/'
+      path: '/surveys'
+      fullPath: '/app/surveys/'
+      preLoaderRoute: typeof AppSurveysIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/surveys/$surveyId': {
+      id: '/app/surveys/$surveyId'
+      path: '/surveys/$surveyId'
+      fullPath: '/app/surveys/$surveyId'
+      preLoaderRoute: typeof AppSurveysSurveyIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/surveys/$surveyId/': {
+      id: '/app/surveys/$surveyId/'
+      path: '/'
+      fullPath: '/app/surveys/$surveyId/'
+      preLoaderRoute: typeof AppSurveysSurveyIdIndexRouteImport
+      parentRoute: typeof AppSurveysSurveyIdRoute
+    }
+    '/app/surveys/$surveyId/responses': {
+      id: '/app/surveys/$surveyId/responses'
+      path: '/responses'
+      fullPath: '/app/surveys/$surveyId/responses'
+      preLoaderRoute: typeof AppSurveysSurveyIdResponsesRouteImport
+      parentRoute: typeof AppSurveysSurveyIdRoute
+    }
   }
 }
 
+interface AppSurveysSurveyIdRouteChildren {
+  AppSurveysSurveyIdResponsesRoute: typeof AppSurveysSurveyIdResponsesRoute
+  AppSurveysSurveyIdIndexRoute: typeof AppSurveysSurveyIdIndexRoute
+}
+
+const AppSurveysSurveyIdRouteChildren: AppSurveysSurveyIdRouteChildren = {
+  AppSurveysSurveyIdResponsesRoute: AppSurveysSurveyIdResponsesRoute,
+  AppSurveysSurveyIdIndexRoute: AppSurveysSurveyIdIndexRoute,
+}
+
+const AppSurveysSurveyIdRouteWithChildren =
+  AppSurveysSurveyIdRoute._addFileChildren(AppSurveysSurveyIdRouteChildren)
+
+interface AppRouteChildren {
+  AppResponsesRoute: typeof AppResponsesRoute
+  AppIndexRoute: typeof AppIndexRoute
+  AppSurveysSurveyIdRoute: typeof AppSurveysSurveyIdRouteWithChildren
+  AppSurveysIndexRoute: typeof AppSurveysIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppResponsesRoute: AppResponsesRoute,
+  AppIndexRoute: AppIndexRoute,
+  AppSurveysSurveyIdRoute: AppSurveysSurveyIdRouteWithChildren,
+  AppSurveysIndexRoute: AppSurveysIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  LoginRoute: LoginRoute,
+  SSlugRoute: SSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
