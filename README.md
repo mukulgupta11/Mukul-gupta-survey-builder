@@ -6,6 +6,46 @@
 
 # SDE Intern — Branded Survey Builder
 
+## Luma — the completed submission
+
+Luma is a focused survey builder designed around one idea: a form should feel like a
+conversation with the brand behind it, not a generic database screen.
+
+### What is included
+
+- Email-only demo sign-in with opaque, expiring, database-backed sessions
+- A three-pane builder with six question types, drag reorder, keyboard-friendly move controls,
+  live preview, required fields, and per-question configuration
+- Per-survey color and logo branding
+- A one-question-at-a-time public response experience with progress and validation
+- Owner dashboard, response analytics, individual response table, and CSV export
+- Responsive layouts for desktop, tablet, and mobile
+
+### Architecture and tradeoffs
+
+- **D1 for all persistence.** Users, sessions, survey definitions, ordered questions, responses,
+  and answers are relational data. D1 keeps ownership checks, response joins, and future analytics
+  straightforward. KV would make these access patterns harder to reason about.
+- **Opaque sessions over JWTs.** Sessions can be revoked and expire server-side. The email-only
+  entry is intentionally scoped for the take-home; production would exchange the same session
+  creation step for a verified magic link or OAuth callback.
+- **Replace questions in one D1 batch.** Survey saves atomically replace the ordered question set,
+  which makes reorder behavior simple and prevents partially saved builders.
+- **Local React state in the builder.** The editing surface has one owner and one save boundary, so
+  an app-wide state library would add ceremony without solving a real coordination problem.
+- **Contained stretch scope.** Analytics and CSV export build directly on the response model.
+  Conditional logic and uploads were left out to protect the quality of the core journey.
+
+### Demo path
+
+1. Sign in with any valid email.
+2. Create a survey and configure its questions and brand.
+3. Publish, then open the public link in a private window.
+4. Submit a response.
+5. Return to **Responses** to see the submission, analytics, and CSV export.
+
+> Node.js 22 or newer is required by the pinned Wrangler and Vite versions.
+
 Welcome. This is a ~1-week take-home for the SDE intern role at **[DoCoDeGo](https://docodego.com/)** — an open framework for teams accountable for what AI produces in their name.
 
 This assignment exists to test exactly what we care about: can you direct AI tools to ship something real, and then stand behind every line of the result?
